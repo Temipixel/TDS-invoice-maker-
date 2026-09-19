@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Temipixel Invoice Maker</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="app">
+  <aside class="sidebar">
+    <div class="brand">
+      <svg class="mark" viewBox="0 0 40 40" fill="none">
+        <circle cx="20" cy="20" r="18" stroke="#d4a72c" stroke-width="1.4"/>
+        <path d="M8 20a12 12 0 0 1 24 0M8 20a12 12 0 0 0 24 0" stroke="#d4a72c" stroke-width="1.4"/>
+        <circle cx="20" cy="20" r="4.5" fill="#d4a72c"/>
+      </svg>
+      <h1>Temipixel</h1>
+      <p>Invoice Maker</p>
+    </div>
+    <nav>
+      <div class="nav-item active" data-view="dashboard">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg>
+        Dashboard
+      </div>
+      <div class="nav-item" data-view="invoices">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 2h9l5 5v15H6z"/><path d="M15 2v5h5"/><path d="M9 13h6M9 17h6M9 9h2"/></svg>
+        Invoices
+      </div>
+      <div class="nav-item" data-view="new-invoice">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 5v14M5 12h14"/></svg>
+        New Invoice
+      </div>
+      <div class="nav-item" data-view="clients">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="9" cy="8" r="3.2"/><path d="M2 20c0-3.5 3-6 7-6s7 2.5 7 6"/><circle cx="17.5" cy="8.5" r="2.3"/><path d="M22 20c0-2.8-2-5-4.5-5.6"/></svg>
+        Clients
+      </div>
+      <div class="nav-item" data-view="templates">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 4h7v7H4zM13 4h7v4h-7zM13 11h7v9h-7zM4 14h7v6H4z"/></svg>
+        Service Templates
+      </div>
+      <div class="nav-item" data-view="settings">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.87l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.7 1.7 0 0 0-1.87-.34 1.7 1.7 0 0 0-1 1.55V21a2 2 0 1 1-4 0v-.09A1.7 1.7 0 0 0 9 19.4a1.7 1.7 0 0 0-1.87.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.7 1.7 0 0 0 4.6 15a1.7 1.7 0 0 0-1.55-1H3a2 2 0 1 1 0-4h.09A1.7 1.7 0 0 0 4.6 9a1.7 1.7 0 0 0-.34-1.87l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.7 1.7 0 0 0 9 4.6a1.7 1.7 0 0 0 1-1.55V3a2 2 0 1 1 4 0v.09a1.7 1.7 0 0 0 1 1.55 1.7 1.7 0 0 0 1.87-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.7 1.7 0 0 0 19.4 9a1.7 1.7 0 0 0 1.55 1H21a2 2 0 1 1 0 4h-.09a1.7 1.7 0 0 0-1.51 1z"/></svg>
+        Business Settings
+      </div>
+    </nav>
+    <div class="sidebar-foot">Temipixel Design Studio<br>&copy; <span id="yearNow"></span></div>
+  </aside>
+
+  <main>
+    <div class="weave"></div>
+
+    <!-- DASHBOARD -->
+    <div class="view" id="view-dashboard">
+      <div class="topbar">
+        <div><h2>Dashboard</h2><div class="sub">A look at where every invoice stands.</div></div>
+        <button class="btn btn-gold" onclick="goTo('new-invoice')">+ New invoice</button>
+      </div>
+      <div class="view" style="padding-top:24px;overflow:visible;">
+        <div class="stat-grid" id="statGrid"></div>
+        <div class="section-head"><h3>Recent invoices</h3><a class="btn btn-sm btn-ghost" onclick="goTo('invoices')" style="cursor:pointer;">View all &rarr;</a></div>
+        <div class="table-wrap"><table>
+          <thead><tr><th>Invoice</th><th>Client</th><th>Date</th><th>Due</th><th>Amount</th><th>Status</th><th></th></tr></thead>
+          <tbody id="recentInvoicesBody"></tbody>
+        </table></div>
+      </div>
+    </div>
+
+    <!-- INVOICES LIST -->
+    <div class="view" id="view-invoices" hidden>
+      <div class="topbar">
+        <div><h2>Invoices</h2><div class="sub">Every invoice you've created, in one place.</div></div>
+        <button class="btn btn-gold" onclick="goTo('new-invoice')">+ New invoice</button>
+      </div>
+      <div style="padding-top:24px;">
+        <div class="filters">
+          <input class="search-input" id="invSearch" placeholder="Search client, project, invoice #...">
+          <select id="filterStatus">
+            <option value="">All statuses</option>
+            <option>Draft</option><option>Sent</option><option>Paid</option><option>Partially Paid</option><option>Overdue</option><option>Cancelled</option>
+          </select>
+          <select id="filterCurrency"><option value="">All currencies</option></select>
+          <select id="filterClient"><option value="">All clients</option></select>
+        </div>
+        <div class="table-wrap"><table>
+          <thead><tr><th>Invoice</th><th>Client</th><th>Date</th><th>Due</th><th>Amount</th><th>Status</th><th>Payment</th><th></th></tr></thead>
+          <tbody id="allInvoicesBody"></tbody>
+        </table></div>
+      </div>
+    </div>
+
+    <!-- NEW / EDIT INVOICE -->
+    <div class="view" id="view-new-invoice" hidden>
+      <div class="topbar">
+        <div><h2 id="invoiceFormTitle">New Invoice</h2><div class="sub">Fill in details, or describe the project and let the assistant draft it.</div></div>
+        <div style="display:flex;gap:8px;">
+          <button class="btn" onclick="previewCurrentInvoice()">Preview</button>
+          <button class="btn btn-primary" onclick="saveInvoice('Draft')">Save draft</button>
+          <button class="btn btn-gold" onclick="saveInvoice('Sent')">Save &amp; mark sent</button>
+        </div>
+      </div>
+      <div style="padding:24px 32px 60px;">
+        <div class="ai-box">
+          <div class="ai-head">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M5.6 5.6l2.8 2.8M15.6 15.6l2.8 2.8M18.4 5.6l-2.8 2.8M8.4 15.6l-2.8 2.8"/></svg>
+            <span>AI INVOICE ASSISTANT</span>
+          </div>
+          <textarea id="aiPrompt" placeholder="e.g. Create an invoice for John for a logo design project worth ₦250,000. He should pay 65% upfront and the remaining 35% when the project is completed."></textarea>
+          <div class="ai-actions">
+            <div class="ai-hint">It only uses figures you give it — it won't invent prices.</div>
+            <button class="btn btn-gold btn-sm" onclick="runAiAssistant()">Draft invoice</button>
+          </div>
+          <div class="ai-result" id="aiResult"></div>
+        </div>
+
+        <div class="creator-layout">
+          <div>
+            <div class="card panel">
+              <h4><span class="num">1</span>Client</h4>
+              <div class="field-row grid-2">
+                <div class="field">
+                  <label>Existing client</label>
+                  <select id="clientSelect" onchange="applyClientSelection()"><option value="">— Select a saved client —</option></select>
+                </div>
+                <div class="field">
+                  <label>Project name</label>
+                  <input id="projectName" placeholder="e.g. BrandCo Brand Identity">
+                </div>
+              </div>
+              <div class="field-row grid-2">
+                <div class="field"><label>Client name</label><input id="clientName" placeholder="Client full name"></div>
+                <div class="field"><label>Company (optional)</label><input id="clientCompany" placeholder="Company name"></div>
+              </div>
+              <div class="field-row grid-2">
+                <div class="field"><label>Email</label><input id="clientEmail" placeholder="client@email.com"></div>
+                <div class="field"><label>Phone</label><input id="clientPhone" placeholder="Phone number"></div>
+              </div>
+              <div class="field"><label>Address</label><input id="clientAddress" placeholder="Client address"></div>
+              <label style="font-weight:500;display:flex;align-items:center;gap:6px;margin-top:4px;">
+                <input type="checkbox" id="saveClientToggle" checked style="width:auto;"> Save this client for future invoices
+              </label>
+            </div>
+
+            <div class="card panel">
+              <h4><span class="num">2</span>Invoice details</h4>
+              <div class="field-row grid-3">
+                <div class="field"><label>Invoice number</label><input id="invoiceNumber"></div>
+                <div class="field"><label>Invoice date</label><input type="date" id="invoiceDate"></div>
+                <div class="field"><label>Due date</label><input type="date" id="dueDate"></div>
+              </div>
+              <div class="field-row grid-3">
+                <div class="field"><label>Currency</label>
+                  <select id="invoiceCurrency">
+                    <option value="$">USD ($)</option><option value="₦">NGN (₦)</option><option value="£">GBP (£)</option><option value="€">EUR (€)</option><option value="GH₵">GHS (GH₵)</option><option value="KSh">KES (KSh)</option>
+                  </select>
+                </div>
+                <div class="field"><label>Payment terms</label>
+                  <input id="paymentTerms" placeholder="e.g. 65% upfront, 35% on completion">
+                </div>
+                <div class="field"><label>Reference / PO number</label><input id="poNumber" placeholder="Optional"></div>
+              </div>
+            </div>
+
+            <div class="card panel">
+              <h4><span class="num">3</span>Line items</h4>
+              <table class="items-table">
+                <thead><tr><th>Service</th><th class="qty-col">Qty</th><th class="price-col">Unit price</th><th class="tax-col">Tax %</th><th class="total-col">Total</th><th class="del-col"></th></tr></thead>
+                <tbody id="itemsBody"></tbody>
+              </table>
+              <button class="btn btn-sm" onclick="addLineItem()">+ Add line item</button>
+
+              <div class="totals-box">
+                <div class="totals-row"><span>Subtotal</span><span class="mono" id="tSubtotal">0.00</span></div>
+                <div class="totals-row"><span>Discount</span><input type="number" id="discountInput" value="0" min="0" oninput="recalcTotals()"></div>
+                <div class="totals-row"><span>Additional fee</span><input type="number" id="feeInput" value="0" min="0" oninput="recalcTotals()"></div>
+                <div class="totals-row"><span>Total</span><span class="mono" id="tTotal">0.00</span></div>
+                <div class="totals-row"><span>Amount paid / deposit</span><input type="number" id="paidInput" value="0" min="0" oninput="recalcTotals()"></div>
+                <div class="totals-row grand"><span>Balance due</span><span class="mono" id="tBalance">0.00</span></div>
+              </div>
+            </div>
+
+            <div class="card panel">
+              <h4><span class="num">4</span>Notes</h4>
+              <textarea id="invoiceNotes" style="width:100%;min-height:70px;" placeholder="Thank-you note, bank details, or delivery terms..."></textarea>
+            </div>
+          </div>
+
+          <div>
+            <div class="card panel">
+              <h4>Quick-add services</h4>
+              <div class="svc-groups" id="quickAddServices"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CLIENTS -->
+    <div class="view" id="view-clients" hidden>
+      <div class="topbar">
+        <div><h2>Clients</h2><div class="sub">Everyone you've billed, and what they owe.</div></div>
+        <button class="btn btn-gold" onclick="openClientModal()">+ Add client</button>
+      </div>
+      <div style="padding-top:24px;">
+        <div class="filters"><input class="search-input" id="clientSearch" placeholder="Search clients..."></div>
+        <div class="table-wrap"><table>
+          <thead><tr><th>Client</th><th>Company</th><th>Email</th><th>Total billed</th><th>Paid</th><th>Outstanding</th><th></th></tr></thead>
+          <tbody id="clientsBody"></tbody>
+        </table></div>
+      </div>
+    </div>
+
+    <!-- TEMPLATES -->
+    <div class="view" id="view-templates" hidden>
+      <div class="topbar">
+        <div><h2>Service Templates</h2><div class="sub">Reusable services so invoices take seconds to build.</div></div>
+        <button class="btn btn-gold" onclick="openTemplateModal()">+ Add service</button>
+      </div>
+      <div style="padding-top:24px;" id="templatesArea"></div>
+    </div>
+
+    <!-- SETTINGS -->
+    <div class="view" id="view-settings" hidden>
+      <div class="topbar"><div><h2>Business Settings</h2><div class="sub">This appears on every invoice you generate.</div></div></div>
+      <div style="padding:24px 32px 60px;">
+        <div class="card panel">
+          <div class="settings-grid">
+            <div>
+              <div class="field" style="display:flex;gap:14px;align-items:center;">
+                <div class="logo-upload" id="logoUpload" onclick="document.getElementById('logoInput').click()">
+                  <span>Upload logo</span>
+                </div>
+                <input type="file" id="logoInput" accept="image/*" style="display:none;" onchange="handleLogoUpload(event)">
+                <div>
+                  <label style="margin-bottom:2px;">Business logo</label>
+                  <div class="helper">PNG or JPG, appears on every invoice.</div>
+                  <button class="btn btn-sm" style="margin-top:6px;" onclick="removeLogo()">Remove</button>
+                </div>
+              </div>
+              <div class="field"><label>Business name</label><input id="bizName" value="Temipixel Design Studio"></div>
+              <div class="field"><label>Address</label><input id="bizAddress"></div>
+              <div class="field-row grid-2">
+                <div class="field"><label>Email</label><input id="bizEmail"></div>
+                <div class="field"><label>Phone</label><input id="bizPhone"></div>
+              </div>
+            </div>
+            <div>
+              <div class="field"><label>Website</label><input id="bizWebsite"></div>
+              <div class="field"><label>Social handles</label><input id="bizSocial" placeholder="@temipixel"></div>
+              <div class="field"><label>Default currency</label>
+                <select id="bizCurrency">
+                  <option value="$">USD ($)</option><option value="₦">NGN (₦)</option><option value="£">GBP (£)</option><option value="€">EUR (€)</option><option value="GH₵">GHS (GH₵)</option><option value="KSh">KES (KSh)</option>
+                </select>
+              </div>
+              <div class="field"><label>Invoice number format</label><input id="numFormat" value="TP-INV-{n}"><div class="helper">Use {n} for the running number, e.g. TP-INV-{n} → TP-INV-0007</div></div>
+              <div class="field"><label>Brand color</label><input type="color" class="color-swatch" id="bizColor" value="#182548"></div>
+            </div>
+          </div>
+          <button class="btn btn-primary" style="margin-top:10px;" onclick="saveSettings()">Save settings</button>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- Invoice preview modal -->
+<div class="modal-overlay" id="previewOverlay" hidden>
+  <div class="modal" style="max-width:720px;">
+    <button class="modal-close no-print" onclick="closeModal('previewOverlay')">✕</button>
+    <div id="invoicePreviewArea"></div>
+    <div style="display:flex;gap:10px;margin-top:20px;" class="no-print">
+      <button class="btn btn-gold" onclick="window.print()">Download / Print</button>
+      <button class="btn" onclick="closeModal('previewOverlay')">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- Client modal -->
+<div class="modal-overlay" id="clientModalOverlay" hidden>
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('clientModalOverlay')">✕</button>
+    <h3 id="clientModalTitle">Add Client</h3>
+    <input type="hidden" id="clientModalId">
+    <div class="field-row grid-2">
+      <div class="field"><label>Client name</label><input id="mClientName"></div>
+      <div class="field"><label>Company</label><input id="mClientCompany"></div>
+    </div>
+    <div class="field-row grid-2">
+      <div class="field"><label>Email</label><input id="mClientEmail"></div>
+      <div class="field"><label>Phone</label><input id="mClientPhone"></div>
+    </div>
+    <div class="field"><label>Address</label><input id="mClientAddress"></div>
+    <div class="field-row grid-2">
+      <div class="field"><label>Country</label><input id="mClientCountry"></div>
+      <div class="field"><label>Tax / VAT info</label><input id="mClientTax"></div>
+    </div>
+    <div class="field"><label>Preferred currency</label>
+      <select id="mClientCurrency"><option value="$">USD ($)</option><option value="₦">NGN (₦)</option><option value="£">GBP (£)</option><option value="€">EUR (€)</option><option value="GH₵">GHS (GH₵)</option><option value="KSh">KES (KSh)</option></select>
+    </div>
+    <div class="field"><label>Notes</label><textarea id="mClientNotes" style="width:100%;min-height:60px;"></textarea></div>
+    <div style="display:flex;gap:10px;">
+      <button class="btn btn-primary" onclick="saveClientModal(false)">Save client</button>
+      <button class="btn btn-gold" onclick="saveClientModal(true)">Save &amp; create invoice</button>
+    </div>
+  </div>
+</div>
+
+<!-- Template modal -->
+<div class="modal-overlay" id="templateModalOverlay" hidden>
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('templateModalOverlay')">✕</button>
+    <h3>Add Service Template</h3>
+    <div class="field"><label>Category</label>
+      <select id="tCategory"><option>Branding</option><option>Design</option><option>Motion</option><option>Photography</option><option>Consulting</option><option>Other</option></select>
+    </div>
+    <div class="field"><label>Service name</label><input id="tName"></div>
+    <div class="field"><label>Default description</label><input id="tDesc"></div>
+    <div class="field"><label>Default price (optional)</label><input type="number" id="tPrice"></div>
+    <button class="btn btn-primary" onclick="saveTemplateModal()">Save service</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="app.js"></script>
+</body>
+</html>

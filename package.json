@@ -1,0 +1,10 @@
+{
+  "name": "temipixel-invoice-maker",
+  "version": "1.0.0",
+  "description": "Invoice creation and management app for Temipixel Design Studio.",
+  "private": true,
+  "scripts": {
+    "dev": "npx serve . -l 3000",
+    "start": "npx serve ."
+  }
+}
